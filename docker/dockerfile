@@ -1,0 +1,18 @@
+FROM php:8.1-fpm
+
+RUN apt update \
+    && apt install -y git libicu-dev \
+    && docker-php-ext-install opcache intl
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
+    && echo "short_open_tag=off" >> "$PHP_INI_DIR/php.ini"
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+
+RUN git config --global user.email "rubin6william@gmail.com" \
+    && git config --global user.name "Rubin William"
+
+WORKDIR /app
