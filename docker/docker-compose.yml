@@ -8,3 +8,8 @@ services:
     volumes:
       - ../:/app
     restart: always
+    environment:
+      XDEBUG_CONFIG: "client_host=host.docker.internal"
+      PHP_IDE_CONFIG: "serverName=localhost"
+      PHP_IDE_KEY: "PHPSTORM"
+
