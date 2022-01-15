@@ -51,7 +51,7 @@ class CustomerOrderRecordParser
     {
         $this->orderId = @$this->record['order_id'];
         $this->orderDate = @$this->record['order_date'];
-        $this->customerState = @$this->record['shipping_price'];
+        $this->customerState = @$this->record['customer']['shipping_address']['state'];
 
         $this->totalOrderValue = 0;
         $this->totalUnitsCount = 0;
