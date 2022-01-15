@@ -1,6 +1,8 @@
 Customer Order Parser
 =================
 
+The input file is read in chunks and multiple output files may be created based on chunk size.
+
 Setup
 ---------
 
