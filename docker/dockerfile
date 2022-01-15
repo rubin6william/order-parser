@@ -1,16 +1,20 @@
 FROM php:8.1-fpm
 
 RUN apt update \
-    && apt install -y git libicu-dev \
+    && apt install -y zlib1g-dev git libicu-dev zip libzip-dev zip \
     && docker-php-ext-install opcache intl
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini" \
     && echo "short_open_tag=off" >> "$PHP_INI_DIR/php.ini"
 
-RUN pecl install xdebug \
+ARG ENABLE_XDEBUG
+
+RUN if [ "$ENABLE_XDEBUG" = "1" ]; then \
+    pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.mode=debug" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.start_with_request=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    && echo "xdebug.start_with_request=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; \
+fi
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

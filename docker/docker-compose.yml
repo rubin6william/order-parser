@@ -5,6 +5,8 @@ services:
     build:
       context: ..
       dockerfile: docker/dockerfile
+      args:
+        ENABLE_XDEBUG: 0
     volumes:
       - ../:/app
     restart: always
