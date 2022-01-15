@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Helpers\CustomerOrderRecordParser;
+
 /**
  * Class CustomerOrderParser
  * @package App\Services
@@ -26,6 +28,11 @@ class CustomerOrderParser
      */
     public function parse(string $url)
     {
+        // Remove any existing output files
+        foreach(glob('out*.*') as $filename) {
+            unlink($filename);
+        }
+
         $orderFile = $this->downloadFileFromUrl->download($url);
 
         $fileHandle = fopen($orderFile, 'r');
@@ -38,14 +45,10 @@ class CustomerOrderParser
 
         $files = 1;
 
-        // Remove any existing output files
-        foreach(glob('out*.*') as $filename) {
-            unlink($filename);
-        }
-
         while(($rawString = fgets($fileHandle)) !== false) {
             $decodedString = json_decode($rawString, true);
             $recordParser = new CustomerOrderRecordParser($decodedString);
+
             $recordParser->parse();
 
             if ($recordParser->totalOrderValue > 0) {

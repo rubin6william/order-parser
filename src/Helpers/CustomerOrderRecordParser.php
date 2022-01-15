@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Helpers;
 
 /**
  * Class CustomerOrderRecordParser
@@ -12,19 +12,19 @@ class CustomerOrderRecordParser
 
     const DISCOUNT_TYPE_DOLLAR = 'DOLLAR';
 
-    protected int $orderId;
+    protected ?int $orderId;
 
-    protected string $orderDate;
+    protected ?string $orderDate;
 
-    protected float $totalOrderValue;
+    protected ?float $totalOrderValue;
 
-    protected float $averageUnitPrice;
+    protected ?float $averageUnitPrice;
 
-    protected int $distinctUnitCount;
+    protected ?int $distinctUnitCount;
 
-    protected int $totalUnitsCount;
+    protected ?int $totalUnitsCount;
 
-    protected string $customerState;
+    protected ?string $customerState;
 
     /**
      * @param array $record
@@ -69,14 +69,17 @@ class CustomerOrderRecordParser
             if (@$discount['type'] == static::DISCOUNT_TYPE_DOLLAR) {
                 $totalItemValue -= $discount['value'];
             } else if (@$discount['type'] == static::DISCOUNT_TYPE_PERCENTAGE) {
-                $totalItemValue -= (($totalItemValue * $discount['value']) / 100);
+                $totalItemValue -= round((($totalItemValue * $discount['value']) / 100), 2);
             }
 
             $this->totalOrderValue += $totalItemValue;
             $this->totalUnitsCount += $item['quantity'];
         }
 
-        $this->averageUnitPrice = round(($this->averageUnitPrice / $this->totalUnitsCount), 2);
+        $this->averageUnitPrice = ($this->averageUnitPrice && $this->totalUnitsCount) ?
+            round(($this->averageUnitPrice / $this->totalUnitsCount), 2) :
+            0;
+
         $this->totalOrderValue -= @$this->record['shipping_price'];
     }
 }
