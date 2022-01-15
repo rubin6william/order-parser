@@ -66,7 +66,7 @@ class ParseOrderCommand extends Command
             return Command::INVALID;
         }
 
-        $this->parser->parse($inputFileUrl);
+        $this->parser->parse($inputFileUrl, $outputFileFormat);
 
         $output->writeln('Output files are generated in current directory');
 

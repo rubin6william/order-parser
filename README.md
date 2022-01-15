@@ -7,7 +7,7 @@ Setup
 docker-compose -f docker/docker-compose.yml up -d --build\
 docker exec order_parser_cli composer install
 
-Run the parser command
+Running the parser command
 ------------------------
 docker exec order_parser_cli php bin/console app:parse-order
 

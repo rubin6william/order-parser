@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\CustomerOrderRecordParser;
+use Exception;
 
 /**
  * Class CustomerOrderParser
@@ -23,10 +24,11 @@ class CustomerOrderParser
      * Parses the input file and outputs file with summarized result
      *
      * @param string $url
+     * @param string $format
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
-    public function parse(string $url)
+    public function parse(string $url, string $format)
     {
         // Remove any existing output files
         foreach(glob('out*.*') as $filename) {
@@ -71,7 +73,10 @@ class CustomerOrderParser
 
             if ($lineNumber > static::CHUNK_SIZE) {
                 // output to file and reset chunk
-                (new ExportAsCsv("out{$files}", $headers, $chunk))->output();
+                (new Exporter())
+                    ->get($format, "out{$files}", $chunk)
+                    ->output();
+
                 $files++;
                 $lineNumber = 1;
                 $chunk = [];
@@ -79,7 +84,9 @@ class CustomerOrderParser
         }
 
         if (count($chunk)) {
-            (new ExportAsCsv("out{$files}", $headers, $chunk))->output();
+            (new Exporter())
+                ->get($format, "out{$files}", $chunk)
+                ->output();
         }
     }
 }
