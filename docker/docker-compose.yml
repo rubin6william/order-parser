@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   cli:
+    container_name: order_parser_cli
     build:
       context: ..
       dockerfile: docker/dockerfile
