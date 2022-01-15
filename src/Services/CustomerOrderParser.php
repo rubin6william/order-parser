@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exporters\Exporter;
 use App\Helpers\CustomerOrderRecordParser;
 use Exception;
 

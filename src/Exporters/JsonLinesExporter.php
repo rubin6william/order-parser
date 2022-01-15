@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Exporters;
 
 use Rs\JsonLines\Exception\InvalidJson;
 use Rs\JsonLines\Exception\NonTraversable;

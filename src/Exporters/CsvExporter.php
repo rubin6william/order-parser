@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Exporters;
 
 /**
  * Converts given array to csv and outputs in given file

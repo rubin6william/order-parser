@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Service;
+namespace App\Tests\Service\Helpers;
 
 use App\Helpers\CustomerOrderRecordParser;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -75,6 +75,6 @@ class CustomerOrderRecordParserTest extends KernelTestCase
     }
 
     protected function readTestFile() {
-        return json_decode(file_get_contents('tests/files/input.jsonl'), true);
+        return json_decode(file_get_contents('tests/fixtures/input.jsonl'), true);
     }
 }
